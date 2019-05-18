@@ -5,7 +5,10 @@
 
 namespace Templates\MiPHP;
 
-if ($_SERVER['PHP_SELF'] != '/index.php') header('Location: /');
+use Extensions\Mi\DatabasePDO;
+
+if($_SERVER['PHP_SELF'] != '/index.php')
+    header('Location: /');
 
 class Template extends \Extensions\Mi\FrontEnd\Template
 {
@@ -17,7 +20,7 @@ class Template extends \Extensions\Mi\FrontEnd\Template
 
     public function database()
     {
-        $db = new \Extensions\Mi\DatabasePDO\Index();
+        $db = new DatabasePDO();
         $db = $db->connectDatabase();
         $this->db = $db[0];
     }
@@ -43,9 +46,10 @@ $pages = array(
 
 $pageClassName = '\Templates\MiPHP\Page' . $pages[@$s[0]];
 
-if (@$pages[@$s[0]] == '') $pageClassName = '';
+if(@$pages[@$s[0]] == '')
+    $pageClassName = '';
 
-if (class_exists($pageClassName) and $pageClassName != '') {
+if(class_exists($pageClassName) and $pageClassName != '') {
     new $pageClassName();
 } else {
     $this->mi->errorPage(array('404', 'Not Found'));

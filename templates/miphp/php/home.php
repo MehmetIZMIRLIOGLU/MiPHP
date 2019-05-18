@@ -5,9 +5,12 @@ Page Name: Home
 
 namespace Templates\MiPHP\Page;
 
-if($_SERVER['PHP_SELF'] != '/index.php') header('Location: /');
+use Templates\MiPHP\Template;
 
-class Home extends \Templates\MiPHP\Template
+if($_SERVER['PHP_SELF'] != '/index.php')
+    header('Location: /');
+
+class Home extends Template
 {
     public function __construct()
     {

@@ -8,14 +8,12 @@ Author: Mehmet İzmirlioğlu
 Author URI: mehmetizmirlioglu.com.tr
 */
 
-namespace Extensions\Mi\Account;
+namespace Extensions\Mi;
 
-use Extensions\Mi\DatabasePDO;
-use Extensions\Mi\Helper;
 use Extensions\Prepare;
 use PDO;
 
-class Index extends Prepare
+class Account extends Prepare
 {
     public $db;
 

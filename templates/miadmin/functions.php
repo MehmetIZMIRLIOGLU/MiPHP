@@ -5,7 +5,11 @@
 
 namespace Templates\MiAdmin;
 
-if ($_SERVER['PHP_SELF'] != '/index.php') header('Location: /');
+use Extensions\Mi\Account;
+use Extensions\Mi\DatabasePDO;
+
+if($_SERVER['PHP_SELF'] != '/index.php')
+    header('Location: /');
 
 class Template extends \Extensions\Mi\FrontEnd\Template
 {
@@ -15,12 +19,12 @@ class Template extends \Extensions\Mi\FrontEnd\Template
     {
         $this->dir = __DIR__ . '/';
         parent::__construct();
-        $this->userC = new \Extensions\Mi\Account\Index();
+        $this->userC = new Account();
     }
 
     public function database()
     {
-        $db = new \Extensions\Mi\DatabasePDO\Index();
+        $db = new DatabasePDO();
         $db = $db->connectDatabase();
         $this->db = $db[0];
     }
@@ -57,16 +61,16 @@ if($user != false) {
 
 $pageClassName = '\Templates\MiAdmin\Page' . $pages[@$s[1]];
 
-if (@$pages[@$s[1]] == '') $pageClassName = '';
+if(@$pages[@$s[1]] == '')
+    $pageClassName = '';
 
-if(@$s[1] == 'sign-out')
-{
+if(@$s[1] == 'sign-out') {
     $Template->userC->signOut();
-    header('Location: '.$this->mi->baseUrl('miadmin'));
+    header('Location: ' . $this->mi->baseUrl('miadmin'));
     die;
 }
 
-if (class_exists($pageClassName) and $pageClassName != '') {
+if(class_exists($pageClassName) and $pageClassName != '') {
     new $pageClassName();
 } else {
     $this->mi->errorPage(array('404', 'Not Found'));
