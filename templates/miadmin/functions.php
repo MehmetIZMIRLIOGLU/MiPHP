@@ -72,6 +72,8 @@ if(@$s[1] == 'sign-out') {
 
 if(class_exists($pageClassName) and $pageClassName != '') {
     new $pageClassName();
+} elseif($pageClassName != '') {
+    $this->mi->errorPage(array('FrontEnd Error', '<em>' . $pageClassName . '</em> Not Found'));
 } else {
     $this->mi->errorPage(array('404', 'Not Found'));
 }
