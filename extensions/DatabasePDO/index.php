@@ -27,22 +27,26 @@ class DatabasePDO extends Prepare
 
     public function connectDatabase()
     {
+        global $db;
+
         $databases = (object)$this->mi->config['pdo'];
-        $db = array();
+        if($db == NULL) {
+            $db = array();
 
-        foreach($databases as $i => $database) {
-            $database = (object)$database;
-            try {
-                $db[$i] = new PDO('mysql:host=' . $database->host . ';dbname=' . $database->dbname . ';charset=utf8', $database->username, $database->password);
-            } catch(PDOException $e) {
-                die($this->mi->errorPage(array("Error Extensions\Mi\DatabasePDO", $e->getMessage())));
+            foreach($databases as $i => $database) {
+                $database = (object)$database;
+                try {
+                    $db[$i] = new PDO('mysql:host=' . $database->host . ';dbname=' . $database->dbname . ';charset=utf8', $database->username, $database->password);
+                } catch(PDOException $e) {
+                    die($this->mi->errorPage(array("Error Extensions\Mi\DatabasePDO", $e->getMessage())));
+                }
+
+                @$db[$i]->query("SET NAMES utf8");
+                @$db[$i]->query("SET NAMES 'UTF8'");
+                @$db[$i]->query("SET character_set_connection = 'UTF8'");
+                @$db[$i]->query("SET character_set_client = 'UTF8'");
+                @$db[$i]->query("SET character_set_results = 'UTF8'");
             }
-
-            @$db[$i]->query("SET NAMES utf8");
-            @$db[$i]->query("SET NAMES 'UTF8'");
-            @$db[$i]->query("SET character_set_connection = 'UTF8'");
-            @$db[$i]->query("SET character_set_client = 'UTF8'");
-            @$db[$i]->query("SET character_set_results = 'UTF8'");
         }
 
         return $db;
